@@ -3,21 +3,6 @@ import './App.css';
 import CustomModal from './components/Modal';
 import axios from 'axios';
 
-// const tasks = [
-//   {
-//     id: 1,
-//     title: "Blog writing",
-//     description: "Theme: How to work less and earn more",
-//     completed: false
-//   },
-//   {
-//     id: 2,
-//     title: "Pay bills",
-//     description: "Pay rent and energy bills",
-//     completed: true
-//   }
-// ]
-
 class App extends Component {
   constructor(props) {
     super(props)
@@ -29,7 +14,6 @@ class App extends Component {
         description: '',
         completed: false
       },
-      // taskList: tasks
       todoList: []
     }
   }
@@ -51,7 +35,6 @@ class App extends Component {
 
   handleSubmit = item => {
     this.toggle()
-    // alert('Saved!', JSON.stringify(item))
     if(item.id) {
       axios
         .put(`http://localhost:8000/api/tasks/${item.id}/`, item)
@@ -64,7 +47,6 @@ class App extends Component {
   }
 
   handleDelete = item => {
-    // alert('Deleted!', JSON.stringify(item))
     axios
       .delete(`http://localhost:8000/api/tasks/${item.id}/`)
       .then(res => this.refreshList)
@@ -88,21 +70,21 @@ class App extends Component {
 
   renderTabList = () => {
     return (
-      <div className='my-5 tab-list'>
+      <div className="my-5 tab-list">
         <span
           onClick={() => this.displayCompleted(true)}
-          className={this.state.viewCompleted ? 'active' : ''}
+          className={this.state.viewCompleted ? "active" : ""}
         >
-          Completed       
+          Completed
         </span>
         <span
           onClick={() => this.displayCompleted(false)}
-          className={this.state.viewCompleted ? '' : 'active'}
+          className={this.state.viewCompleted ? "" : "active"}
         >
-          Incompleted       
+          Incompleted
         </span>
       </div>
-    )
+    );
   }
 
   renderItems = () => {
@@ -110,30 +92,39 @@ class App extends Component {
     const newItens = this.state.todoList.filter(
       item => item.completed === viewCompleted
     )
-    return newItens.map(item => (
-      <li 
+    return newItens.map((item) => (
+      <li
         key={item.id}
-        className='list-group-item d-flex justify-content-between align-items-center'>
-          <span
-            className={`todo-title mr-2 ${this.state.viewCompleted ? 'completed-todo' : ''}`}
-            title = {item.title}
-          >
-            {item.title}
-          </span>
-          <span>
-            <button 
-              className='btn btn-warning mr-2' 
-              onClick={() => this.editItem(item)}>
-                Edit
+        className="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <span
+          className={`todo-title mr-2 ${
+            this.state.viewCompleted ? "completed-todo" : ""
+          }`}
+          title={item.title}
+        >
+          {item.title}
+        </span>
+        <span className='d-flex'>
+          <div className='p-1'>
+            <button
+              className="btn btn-warning"
+              onClick={() => this.editItem(item)}
+            >
+              Edit
             </button>
-            <button 
-              className='btn btn-danger mr-2' 
-              onClick={() => this.handleDelete(item)}>
-                Delete
+          </div>
+          <div className='p-1'>
+            <button
+              className="btn btn-danger"
+              onClick={() => this.handleDelete(item)}
+            >
+              Delete
             </button>
-          </span>
+          </div>
+        </span>
       </li>
-    ))
+    ));
   }
 
   // This method renders the page
@@ -144,7 +135,7 @@ class App extends Component {
         <div className='row'>
           <div className='col-md-6 col-sma-10 mx-auto p-0'>
             <div className='card p-3'>
-              <div>
+              <div class="d-grid gap-2">
                 <button 
                   className='btn btn-primary'
                   onClick={this.createItem}
@@ -158,7 +149,7 @@ class App extends Component {
           </div>
         </div>
         <footer
-          className='my-5 mb-2 text-black text-center'>
+          className='sticky-bottom my-5 mb-2 text-black text-center'>
             Copyright 2023 &copy;
         </footer>
         {this.state.modal ? (
